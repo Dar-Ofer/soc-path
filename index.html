@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>מסלול SOC</title>
+<meta name="theme-color" content="#0f6b78">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="SOC">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<style>
+:root{
+  --bg:#f5f7f9; --surface:#ffffff; --fg:#17212b; --muted:#5a6773; --line:#d9e0e6;
+  --accent:#0f6b78; --accent-fg:#ffffff; --accent-soft:#e1f0f2;
+  --phone:#8a5a00; --phone-soft:#fbf0dc; --pc:#3d4d9c; --pc-soft:#e7eafa;
+  --font:-apple-system,BlinkMacSystemFont,"SF Hebrew","Arial Hebrew",Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#0f1519; --surface:#172026; --fg:#e6edf2; --muted:#9aa8b3; --line:#2a363e;
+  --accent:#5cc3cf; --accent-fg:#0b1a1e; --accent-soft:#16323a;
+  --phone:#f0b955; --phone-soft:#33280f; --pc:#a3b1ff; --pc-soft:#1f2547; color-scheme:dark}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:17px;line-height:1.5}
+button{font:inherit;color:inherit}
+a{color:var(--accent)}
+main{max-width:640px;margin:0 auto;
+  padding-top:calc(env(safe-area-inset-top,0px) + 16px);
+  padding-bottom:calc(env(safe-area-inset-bottom,0px) + 96px);
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1{font-size:1.6rem;margin:0 0 4px;line-height:1.2}
+h2{font-size:1.15rem;margin:28px 0 10px}
+h3{font-size:1rem;margin:0}
+p{margin:0}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:10px}
+.stack{display:grid;gap:12px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.tag{display:inline-block;font-size:.78rem;font-weight:600;padding:2px 9px;border-radius:99px;white-space:nowrap}
+.tag.phone{background:var(--phone-soft);color:var(--phone)}
+.tag.pc{background:var(--pc-soft);color:var(--pc)}
+.btn{border:0;border-radius:12px;padding:12px 16px;font-weight:600;cursor:pointer;text-align:center;text-decoration:none;display:inline-block}
+.btn.primary{background:var(--accent);color:var(--accent-fg)}
+.btn.ghost{background:var(--accent-soft);color:var(--accent)}
+.btn:disabled{opacity:.55;cursor:default}
+.btn:focus-visible,.tab:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.streak{display:flex;align-items:baseline;gap:8px}
+.streak b{font-size:2.4rem;line-height:1;color:var(--accent);font-variant-numeric:tabular-nums}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center}
+.day{display:grid;gap:4px;justify-items:center;font-size:.75rem;color:var(--muted)}
+.dot{width:26px;height:26px;border-radius:50%;border:2px solid var(--line)}
+.dot.on{background:var(--accent);border-color:var(--accent)}
+.dot.today{border-color:var(--accent)}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.phase{display:grid;gap:8px}
+.phase .when{font-size:.85rem;font-weight:600;color:var(--accent)}
+.task{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
+.task input{width:22px;height:22px;margin:2px 0 0;accent-color:var(--accent);flex:none}
+.task .body{min-width:0;flex:1;display:grid;gap:4px}
+.task.done .title{color:var(--muted);text-decoration:line-through}
+.task a{font-size:.88rem}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:6px 14px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--pc-soft);border-color:var(--pc);color:var(--pc);font-weight:600}
+.install{background:var(--phone-soft);color:var(--fg);border-radius:14px;padding:14px;display:grid;gap:6px}
+textarea{width:100%;min-height:90px;font:inherit;font-size:.8rem;border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--surface);color:var(--fg)}
+nav{position:fixed;inset:auto 0 0 0;background:var(--surface);border-top:1px solid var(--line);
+  display:grid;grid-template-columns:repeat(3,1fr);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+.tab{background:none;border:0;padding:12px 4px 14px;font-weight:600;color:var(--muted);cursor:pointer}
+.tab[aria-selected="true"]{color:var(--accent)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 72px);background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:.9rem}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+<main>
+  <section id="view-today" class="stack"></section>
+  <section id="view-path" class="stack" hidden></section>
+  <section id="view-links" class="stack" hidden></section>
+</main>
+<nav role="tablist">
+  <button class="tab" role="tab" id="tab-today" data-view="today" aria-selected="true">היום</button>
+  <button class="tab" role="tab" id="tab-path" data-view="path" aria-selected="false">המסלול</button>
+  <button class="tab" role="tab" id="tab-links" data-view="links" aria-selected="false">קישורים</button>
+</nav>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const PHASES = [
+  { when:'חודשים 1–4', title:'הבסיס: תעודת Google Cybersecurity',
+    goal:'שמונה קורסים למי שמתחיל מאפס: יסודות, רשתות, לינוקס, SQL, SIEM, תגובה לאירועים ופייתון בסיסי.',
+    tasks:[
+      {id:'t1', text:'להתקין את Coursera ולהגיש בקשה למלגה לתעודה', mode:'phone', url:'https://www.coursera.org/google', link:'התעודות של Google ב-Coursera'},
+      {id:'t2', text:'קורסים 1–4: יסודות, ניהול סיכונים, רשתות, לינוקס ו-SQL', mode:'phone', url:'https://www.coursera.org/google', link:'Coursera'},
+      {id:'t3', text:'קורסים 5–8: נכסים ופגיעויות, SIEM ותגובה, פייתון, הכנה לעבודה', mode:'phone', url:'https://www.coursera.org/google', link:'Coursera'},
+      {id:'t4', text:'לבצע את המעבדות של הקורסים במחשב, בלי לדלג', mode:'pc'},
+      {id:'t5', text:'להתקין את TryHackMe Pulse ולפתוח חשבון חינמי באתר', mode:'phone', url:'https://apps.apple.com/app/id6758337592', link:'TryHackMe Pulse ב-App Store'}
+    ]},
+  { when:'חודשים 4–6', title:'העמקה ברשתות ובהגנה',
+    goal:'רשתות הן הבסיס של עבודה ב-SOC. המסלול של Cisco מעמיק בהן יותר מהתעודה של Google.',
+    tasks:[
+      {id:'t6', text:'להירשם ל-Skills for All ולהתחיל את מסלול Junior Cybersecurity Analyst', mode:'pc', url:'https://www.skillsforall.com', link:'Cisco Skills for All'},
+      {id:'t7', text:'לסיים את המסלול ולקבל את התג הדיגיטלי', mode:'pc', url:'https://www.skillsforall.com', link:'Cisco Skills for All'},
+      {id:'t8', text:'חדרי מבוא חינמיים ב-TryHackMe: לינוקס, רשתות, Windows', mode:'pc', url:'https://tryhackme.com', link:'TryHackMe'}
+    ]},
+  { when:'חודשים 5–8', title:'עבודה מעשית כמו ב-SOC',
+    goal:'חוקרים התרעה, קוראים לוגים, מנתחים מייל פישינג ומסכמים מה קרה.',
+    tasks:[
+      {id:'t9', text:'חדרי SOC ו-Blue Team החינמיים ב-TryHackMe', mode:'pc', url:'https://tryhackme.com', link:'TryHackMe'},
+      {id:'t10', text:'אתגרים חינמיים ב-CyberDefenders וב-Blue Team Labs Online', mode:'pc', url:'https://cyberdefenders.org', link:'CyberDefenders', url2:'https://blueteamlabs.online', link2:'Blue Team Labs Online'},
+      {id:'t11', text:'התרעות לתרגול ב-LetsDefend, שחלק ממנו חינמי', mode:'pc', url:'https://letsdefend.io', link:'LetsDefend'},
+      {id:'t12', text:'לכתוב סיכום קצר על כל אתגר ולפרסם ב-GitHub או ב-LinkedIn', mode:'pc'}
+    ]},
+  { when:'חודשים 7–9', title:'הכנה לשוק',
+    goal:'Security+ היא התעודה המוכרת ביותר לתפקידי כניסה. ההכנה חינמית, והמבחן עצמו בתשלום.',
+    tasks:[
+      {id:'t13', text:'סדרת Security+ של Professor Messer', mode:'phone', url:'https://www.professormesser.com', link:'Professor Messer'},
+      {id:'t14', text:'קורות חיים: התעודות, התג וקישור לסיכומי האתגרים', mode:'pc'},
+      {id:'t15', text:'להגיש מועמדות לתפקידי SOC Tier 1 ואנליסט סייבר זוטר', mode:'pc'}
+    ]}
+];
+const ALL = PHASES.flatMap(p => p.tasks);
+const DAY_NAMES = ['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'];
+const DAY_FULL = ['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
+const KEY = 'soc-path-app-v1';
+
+function load(){
+  let s = {};
+  try { s = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) {}
+  return { done: s.done || {}, studied: s.studied || [], pcDays: s.pcDays || [1,3], start: s.start || todayStr() };
+}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e) {} }
+function todayStr(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function addDays(d, n){ const x = new Date(d); x.setDate(x.getDate()+n); return x; }
+
+let state = load();
+save();
+
+function streak(){
+  const set = new Set(state.studied);
+  let d = new Date(), n = 0;
+  if (!set.has(todayStr(d))) d = addDays(d, -1);
+  while (set.has(todayStr(d))) { n++; d = addDays(d, -1); }
+  return n;
+}
+function doneCount(){ return ALL.filter(t => state.done[t.id]).length; }
+function weekNo(){
+  const [y,m,dd] = state.start.split('-').map(Number);
+  const days = Math.floor((new Date().setHours(0,0,0,0) - new Date(y,m-1,dd)) / 86400000);
+  return Math.max(1, Math.floor(days/7) + 1);
+}
+function tag(mode){ return mode === 'pc' ? '<span class="tag pc">מחשב</span>' : '<span class="tag phone">טלפון</span>'; }
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function links(t){
+  let h = '';
+  if (t.url) h += '<a href="'+t.url+'" target="_blank" rel="noopener">'+esc(t.link)+' ↗</a>';
+  if (t.url2) h += ' · <a href="'+t.url2+'" target="_blank" rel="noopener">'+esc(t.link2)+' ↗</a>';
+  return h;
+}
+
+function toast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.hidden = false;
+  clearTimeout(toast.t); toast.t = setTimeout(() => el.hidden = true, 2200);
+}
+
+function isStandalone(){ return window.navigator.standalone === true || matchMedia('(display-mode: standalone)').matches; }
+
+function renderToday(){
+  const today = new Date(), dow = today.getDay();
+  const isPc = state.pcDays.includes(dow);
+  const studiedToday = state.studied.includes(todayStr());
+  const next = ALL.find(t => !state.done[t.id]);
+  const phase = next ? PHASES.find(p => p.tasks.includes(next)) : null;
+  const n = doneCount(), pct = Math.round(n / ALL.length * 100);
+
+  let week = '';
+  for (let i = 6; i >= 0; i--) {
+    const d = addDays(today, -i), s = todayStr(d);
+    week += '<div class="day"><span class="dot'+(state.studied.includes(s)?' on':'')+(i===0?' today':'')+'"></span>'+DAY_NAMES[d.getDay()]+'</div>';
+  }
+
+  let html = '';
+  if (!isStandalone()) {
+    html += '<div class="install"><b>להתקנה במסך הבית</b><p class="small">ב-Safari: כפתור השיתוף בתחתית המסך, ואז "הוספה למסך הבית". מאותו רגע האפליקציה נפתחת מהאייקון ועובדת גם בלי אינטרנט.</p></div>';
+  }
+  html += '<div><h1>שבוע '+weekNo()+' במסלול</h1><p class="muted">יום '+DAY_FULL[dow]+' · '+(isPc ? 'יום מחשב: 90 דקות של מעבדות' : 'יום טלפון: 30–45 דקות')+'</p></div>';
+
+  html += '<div class="card"><div class="streak"><b>'+streak()+'</b><span>ימים ברצף</span></div><div class="days">'+week+'</div>'+
+    '<button class="btn primary" id="studied" '+(studiedToday?'disabled':'')+'>'+(studiedToday?'סימנת שלמדת היום':'למדתי היום')+'</button></div>';
+
+  if (next) {
+    html += '<h2>המשימה הבאה</h2><div class="card"><div class="row"><span class="small muted">'+esc(phase.when)+' · '+esc(phase.title)+'</span></div>'+
+      '<h3>'+esc(next.text)+'</h3><div class="row">'+tag(next.mode)+(next.url?links(next):'')+'</div>'+
+      '<button class="btn ghost" id="finish" data-id="'+next.id+'">סיימתי את המשימה</button></div>';
+  } else {
+    html += '<h2>סיימת את כל המסלול</h2><div class="card"><p>כל 15 המשימות מסומנות. השלב הבא הוא לשלוח קורות חיים ולהמשיך לתרגל.</p></div>';
+  }
+
+  html += '<h2>התקדמות</h2><div class="card"><div class="row"><span>'+n+' מתוך '+ALL.length+' משימות</span><span class="muted small">'+pct+'%</span></div><div class="bar"><i style="width:'+pct+'%"></i></div></div>';
+
+  html += '<h2>ימי מחשב</h2><p class="muted small">ביום מחשב עושים מעבדות. בשאר הימים לומדים בטלפון.</p><div class="chips">'+
+    DAY_FULL.map((d,i) => '<button class="chip" data-day="'+i+'" aria-pressed="'+state.pcDays.includes(i)+'">'+d+'</button>').join('')+'</div>';
+
+  const v = document.getElementById('view-today');
+  v.innerHTML = html;
+  const st = document.getElementById('studied');
+  if (st) st.onclick = () => { if (!state.studied.includes(todayStr())) state.studied.push(todayStr()); save(); render(); toast('נרשם. הרצף שלך: '+streak()); };
+  const fin = document.getElementById('finish');
+  if (fin) fin.onclick = () => { state.done[fin.dataset.id] = true; if (!state.studied.includes(todayStr())) state.studied.push(todayStr()); save(); render(); toast('המשימה סומנה'); };
+  v.querySelectorAll('.chip').forEach(c => c.onclick = () => {
+    const d = Number(c.dataset.day);
+    state.pcDays = state.pcDays.includes(d) ? state.pcDays.filter(x => x !== d) : state.pcDays.concat(d);
+    save(); render();
+  });
+}
+
+function renderPath(){
+  let html = '<h1>המסלול</h1><p class="muted">9 חודשים, בערך שעה ביום. התקדמות לפי ההבנה ולא לפי הלוח.</p>';
+  PHASES.forEach(p => {
+    html += '<div class="phase"><h2 style="margin-bottom:0">'+esc(p.title)+'</h2><span class="when">'+esc(p.when)+'</span><p class="muted small">'+esc(p.goal)+'</p>';
+    p.tasks.forEach(t => {
+      const d = !!state.done[t.id];
+      html += '<div class="task'+(d?' done':'')+'"><input type="checkbox" id="c-'+t.id+'" data-id="'+t.id+'" '+(d?'checked':'')+'>'+
+        '<div class="body"><label class="title" for="c-'+t.id+'">'+esc(t.text)+'</label><div class="row">'+tag(t.mode)+links(t)+'</div></div></div>';
+    });
+    html += '</div>';
+  });
+  const v = document.getElementById('view-path');
+  v.innerHTML = html;
+  v.querySelectorAll('input[type=checkbox]').forEach(b => b.onchange = () => { state.done[b.dataset.id] = b.checked; save(); render(); });
+}
+
+function renderLinks(){
+  const apps = [
+    ['Coursera','https://www.coursera.org/google','phone','תעודת Google Cybersecurity. צפייה חינמית, ותעודה בחינם דרך בקשת מלגה בעמוד הקורס.'],
+    ['TryHackMe Pulse','https://apps.apple.com/app/id6758337592','phone','האפליקציה הרשמית של TryHackMe לרצפים ומשימות שבועיות. הלמידה עצמה באתר.'],
+    ['Professor Messer','https://www.professormesser.com','phone','הכנה חינמית ל-Security+ בסרטונים.'],
+    ['Cisco Skills for All','https://www.skillsforall.com','pc','מסלול Junior Cybersecurity Analyst, חינמי לגמרי.'],
+    ['TryHackMe','https://tryhackme.com','pc','מעבדות מעשיות. יש חדרים חינמיים.'],
+    ['CyberDefenders','https://cyberdefenders.org','pc','אתגרי חקירה של Blue Team.'],
+    ['Blue Team Labs Online','https://blueteamlabs.online','pc','אתגרי חקירה, חלקם חינמיים.'],
+    ['LetsDefend','https://letsdefend.io','pc','סימולציה של עבודת SOC, חלקה חינמית.']
+  ];
+  let html = '<h1>קישורים</h1>';
+  apps.forEach(a => {
+    html += '<div class="card"><div class="row"><h3>'+a[0]+'</h3>'+tag(a[2])+'</div><p class="small muted">'+a[3]+'</p><a href="'+a[1]+'" target="_blank" rel="noopener">פתיחה ↗</a></div>';
+  });
+  html += '<h2>גיבוי ההתקדמות</h2><p class="muted small">ההתקדמות נשמרת רק בטלפון הזה. לפני החלפת טלפון או מחיקת האפליקציה מעתיקים את הקוד ושומרים אותו, למשל בפתקים.</p>'+
+    '<button class="btn ghost" id="copy">העתקת קוד גיבוי</button>'+
+    '<textarea id="restore" placeholder="כאן מדביקים קוד גיבוי כדי לשחזר"></textarea>'+
+    '<button class="btn ghost" id="doRestore">שחזור מהקוד</button>';
+  const v = document.getElementById('view-links');
+  v.innerHTML = html;
+  document.getElementById('copy').onclick = () => {
+    const code = btoa(unescape(encodeURIComponent(JSON.stringify(state))));
+    const ta = document.getElementById('restore');
+    navigator.clipboard && navigator.clipboard.writeText(code).then(() => toast('הקוד הועתק'), () => { ta.value = code; ta.select(); toast('הקוד מסומן. אפשר להעתיק אותו'); });
+    if (!navigator.clipboard) { ta.value = code; ta.select(); toast('הקוד מסומן. אפשר להעתיק אותו'); }
+  };
+  document.getElementById('doRestore').onclick = () => {
+    try {
+      const s = JSON.parse(decodeURIComponent(escape(atob(document.getElementById('restore').value.trim()))));
+      if (!s || typeof s.done !== 'object') throw 0;
+      state = { done: s.done, studied: s.studied || [], pcDays: s.pcDays || [1,3], start: s.start || todayStr() };
+      save(); render(); toast('ההתקדמות שוחזרה');
+    } catch(e) { toast('הקוד לא תקין. צריך להדביק את כל הקוד שהועתק'); }
+  };
+}
+
+function render(){ renderToday(); renderPath(); renderLinks(); }
+
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+  document.querySelectorAll('.tab').forEach(x => x.setAttribute('aria-selected', x === t));
+  ['today','path','links'].forEach(v => document.getElementById('view-'+v).hidden = v !== t.dataset.view);
+  window.scrollTo(0,0);
+});
+
+render();
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+</script>
+</body>
+</html>
