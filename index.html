@@ -95,6 +95,7 @@ nav{position:fixed;inset:auto 0 0 0;background:var(--surface);border-top:1px sol
 <div class="toast" id="toast" hidden></div>
 
 <script>
+const VERSION = '3 · Cisco';
 const PHASES = [
   { when:'חודשים 1–4', title:'הבסיס: מסלול Cisco, חינמי לגמרי',
     goal:'Junior Cybersecurity Analyst של Cisco Skills for All: רשתות, אבטחת מחשבים, הגנת רשת וניהול איומים. בלי דרישות קדם, ובסופו תג דיגיטלי.',
@@ -261,7 +262,8 @@ function renderLinks(){
   html += '<h2>גיבוי ההתקדמות</h2><p class="muted small">ההתקדמות נשמרת רק בטלפון הזה. לפני החלפת טלפון או מחיקת האפליקציה מעתיקים את הקוד ושומרים אותו, למשל בפתקים.</p>'+
     '<button class="btn ghost" id="copy">העתקת קוד גיבוי</button>'+
     '<textarea id="restore" placeholder="כאן מדביקים קוד גיבוי כדי לשחזר"></textarea>'+
-    '<button class="btn ghost" id="doRestore">שחזור מהקוד</button>';
+    '<button class="btn ghost" id="doRestore">שחזור מהקוד</button>'+
+    '<p class="muted small" style="text-align:center;margin-top:16px">גרסה '+VERSION+'</p>';
   const v = document.getElementById('view-links');
   v.innerHTML = html;
   document.getElementById('copy').onclick = () => {
@@ -289,7 +291,19 @@ document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
 });
 
 render();
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+if ('serviceWorker' in navigator) {
+  const hadController = !!navigator.serviceWorker.controller;
+  let reloaded = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (hadController && !reloaded) { reloaded = true; location.reload(); }
+  });
+  navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' })
+    .then(reg => {
+      reg.update();
+      document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') reg.update(); });
+    })
+    .catch(() => {});
+}
 </script>
 </body>
 </html>
