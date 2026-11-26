@@ -1,4 +1,4 @@
-const CACHE = 'soc-path-v1';
+const CACHE = 'soc-path-v2';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icons/icon-180.png', './icons/icon-192.png', './icons/icon-512.png'];
 
 self.addEventListener('install', e => {

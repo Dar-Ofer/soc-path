@@ -44,6 +44,7 @@ p{margin:0}
 .tag{display:inline-block;font-size:.78rem;font-weight:600;padding:2px 9px;border-radius:99px;white-space:nowrap}
 .tag.phone{background:var(--phone-soft);color:var(--phone)}
 .tag.pc{background:var(--pc-soft);color:var(--pc)}
+.tag.web{background:var(--accent-soft);color:var(--accent)}
 .btn{border:0;border-radius:12px;padding:12px 16px;font-weight:600;cursor:pointer;text-align:center;text-decoration:none;display:inline-block}
 .btn.primary{background:var(--accent);color:var(--accent-fg)}
 .btn.ghost{background:var(--accent-soft);color:var(--accent)}
@@ -95,21 +96,20 @@ nav{position:fixed;inset:auto 0 0 0;background:var(--surface);border-top:1px sol
 
 <script>
 const PHASES = [
-  { when:'חודשים 1–4', title:'הבסיס: תעודת Google Cybersecurity',
-    goal:'שמונה קורסים למי שמתחיל מאפס: יסודות, רשתות, לינוקס, SQL, SIEM, תגובה לאירועים ופייתון בסיסי.',
+  { when:'חודשים 1–4', title:'הבסיס: מסלול Cisco, חינמי לגמרי',
+    goal:'Junior Cybersecurity Analyst של Cisco Skills for All: רשתות, אבטחת מחשבים, הגנת רשת וניהול איומים. בלי דרישות קדם, ובסופו תג דיגיטלי.',
     tasks:[
-      {id:'t1', text:'להתקין את Coursera ולהגיש בקשה למלגה לתעודה', mode:'phone', url:'https://www.coursera.org/google', link:'התעודות של Google ב-Coursera'},
-      {id:'t2', text:'קורסים 1–4: יסודות, ניהול סיכונים, רשתות, לינוקס ו-SQL', mode:'phone', url:'https://www.coursera.org/google', link:'Coursera'},
-      {id:'t3', text:'קורסים 5–8: נכסים ופגיעויות, SIEM ותגובה, פייתון, הכנה לעבודה', mode:'phone', url:'https://www.coursera.org/google', link:'Coursera'},
-      {id:'t4', text:'לבצע את המעבדות של הקורסים במחשב, בלי לדלג', mode:'pc'},
-      {id:'t5', text:'להתקין את TryHackMe Pulse ולפתוח חשבון חינמי באתר', mode:'phone', url:'https://apps.apple.com/app/id6758337592', link:'TryHackMe Pulse ב-App Store'}
-    ]},
-  { when:'חודשים 4–6', title:'העמקה ברשתות ובהגנה',
-    goal:'רשתות הן הבסיס של עבודה ב-SOC. המסלול של Cisco מעמיק בהן יותר מהתעודה של Google.',
-    tasks:[
-      {id:'t6', text:'להירשם ל-Skills for All ולהתחיל את מסלול Junior Cybersecurity Analyst', mode:'pc', url:'https://www.skillsforall.com', link:'Cisco Skills for All'},
-      {id:'t7', text:'לסיים את המסלול ולקבל את התג הדיגיטלי', mode:'pc', url:'https://www.skillsforall.com', link:'Cisco Skills for All'},
+      {id:'c1', text:'לפתוח חשבון ב-Skills for All ולעבור את הקורס Introduction to Cybersecurity', mode:'web', url:'https://www.skillsforall.com', link:'Cisco Skills for All'},
+      {id:'c2', text:'במסלול Junior Cybersecurity Analyst: הקורסים Networking Devices and Initial Configuration ו-Endpoint Security', mode:'web', url:'https://www.skillsforall.com', link:'Cisco Skills for All'},
+      {id:'c3', text:'במסלול Junior Cybersecurity Analyst: הקורסים Network Defense ו-Cyber Threat Management, מבחן הסיום והתג', mode:'web', url:'https://www.skillsforall.com', link:'Cisco Skills for All'},
+      {id:'t5', text:'להתקין את TryHackMe Pulse ולפתוח חשבון חינמי באתר', mode:'phone', url:'https://apps.apple.com/app/id6758337592', link:'TryHackMe Pulse ב-App Store'},
       {id:'t8', text:'חדרי מבוא חינמיים ב-TryHackMe: לינוקס, רשתות, Windows', mode:'pc', url:'https://tryhackme.com', link:'TryHackMe'}
+    ]},
+  { when:'חודשים 2–6', title:'תיאוריה מהטלפון',
+    goal:'בימי הטלפון לומדים את החומר של Security+, התעודה המוכרת ביותר לתפקידי כניסה. כל הסרטונים חינמיים.',
+    tasks:[
+      {id:'t13', text:'סדרת Security+ של Professor Messer', mode:'phone', url:'https://www.professormesser.com', link:'Professor Messer'},
+      {id:'c4', text:'לא חובה: להגיש בקשה למלגה ב-Coursera על תעודת Google Cybersecurity. מגישים דרך "Financial aid available" בעמוד הקורס, ואם הבקשה מאושרת, מוסיפים את התעודה למסלול', mode:'phone', url:'https://www.coursera.org/google', link:'התעודות של Google ב-Coursera'}
     ]},
   { when:'חודשים 5–8', title:'עבודה מעשית כמו ב-SOC',
     goal:'חוקרים התרעה, קוראים לוגים, מנתחים מייל פישינג ומסכמים מה קרה.',
@@ -120,9 +120,9 @@ const PHASES = [
       {id:'t12', text:'לכתוב סיכום קצר על כל אתגר ולפרסם ב-GitHub או ב-LinkedIn', mode:'pc'}
     ]},
   { when:'חודשים 7–9', title:'הכנה לשוק',
-    goal:'Security+ היא התעודה המוכרת ביותר לתפקידי כניסה. ההכנה חינמית, והמבחן עצמו בתשלום.',
+    goal:'ההכנה ל-Security+ חינמית, אבל המבחן עצמו בתשלום. מחליטים כאן אם לגשת אליו.',
     tasks:[
-      {id:'t13', text:'סדרת Security+ של Professor Messer', mode:'phone', url:'https://www.professormesser.com', link:'Professor Messer'},
+      {id:'c5', text:'להחליט אם לגשת למבחן Security+, ואם כן, לקבוע תאריך', mode:'phone', url:'https://www.professormesser.com', link:'Professor Messer'},
       {id:'t14', text:'קורות חיים: התעודות, התג וקישור לסיכומי האתגרים', mode:'pc'},
       {id:'t15', text:'להגיש מועמדות לתפקידי SOC Tier 1 ואנליסט סייבר זוטר', mode:'pc'}
     ]}
@@ -157,7 +157,11 @@ function weekNo(){
   const days = Math.floor((new Date().setHours(0,0,0,0) - new Date(y,m-1,dd)) / 86400000);
   return Math.max(1, Math.floor(days/7) + 1);
 }
-function tag(mode){ return mode === 'pc' ? '<span class="tag pc">מחשב</span>' : '<span class="tag phone">טלפון</span>'; }
+function tag(mode){
+  if (mode === 'pc') return '<span class="tag pc">מחשב</span>';
+  if (mode === 'web') return '<span class="tag web">דפדפן</span>';
+  return '<span class="tag phone">טלפון</span>';
+}
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 function links(t){
   let h = '';
@@ -202,7 +206,7 @@ function renderToday(){
       '<h3>'+esc(next.text)+'</h3><div class="row">'+tag(next.mode)+(next.url?links(next):'')+'</div>'+
       '<button class="btn ghost" id="finish" data-id="'+next.id+'">סיימתי את המשימה</button></div>';
   } else {
-    html += '<h2>סיימת את כל המסלול</h2><div class="card"><p>כל 15 המשימות מסומנות. השלב הבא הוא לשלוח קורות חיים ולהמשיך לתרגל.</p></div>';
+    html += '<h2>סיימת את כל המסלול</h2><div class="card"><p>כל המשימות מסומנות. השלב הבא הוא לשלוח קורות חיים ולהמשיך לתרגל.</p></div>';
   }
 
   html += '<h2>התקדמות</h2><div class="card"><div class="row"><span>'+n+' מתוך '+ALL.length+' משימות</span><span class="muted small">'+pct+'%</span></div><div class="bar"><i style="width:'+pct+'%"></i></div></div>';
@@ -241,10 +245,10 @@ function renderPath(){
 
 function renderLinks(){
   const apps = [
-    ['Coursera','https://www.coursera.org/google','phone','תעודת Google Cybersecurity. צפייה חינמית, ותעודה בחינם דרך בקשת מלגה בעמוד הקורס.'],
-    ['TryHackMe Pulse','https://apps.apple.com/app/id6758337592','phone','האפליקציה הרשמית של TryHackMe לרצפים ומשימות שבועיות. הלמידה עצמה באתר.'],
+    ['Cisco Skills for All','https://www.skillsforall.com','web','הבסיס של המסלול: Junior Cybersecurity Analyst, חינמי לגמרי.'],
     ['Professor Messer','https://www.professormesser.com','phone','הכנה חינמית ל-Security+ בסרטונים.'],
-    ['Cisco Skills for All','https://www.skillsforall.com','pc','מסלול Junior Cybersecurity Analyst, חינמי לגמרי.'],
+    ['TryHackMe Pulse','https://apps.apple.com/app/id6758337592','phone','האפליקציה הרשמית של TryHackMe לרצפים ומשימות שבועיות. הלמידה עצמה באתר.'],
+    ['Coursera','https://www.coursera.org/google','phone','תעודת Google Cybersecurity. בתשלום, או בחינם אם בקשה למלגה מאושרת. לא חובה.'],
     ['TryHackMe','https://tryhackme.com','pc','מעבדות מעשיות. יש חדרים חינמיים.'],
     ['CyberDefenders','https://cyberdefenders.org','pc','אתגרי חקירה של Blue Team.'],
     ['Blue Team Labs Online','https://blueteamlabs.online','pc','אתגרי חקירה, חלקם חינמיים.'],
